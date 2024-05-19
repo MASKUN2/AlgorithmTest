@@ -1,5 +1,6 @@
 import java.util.*;
-
+// 대기열 중 작업시간이 가장 작은 것을 우선적으로 처리해야한다(SJF 알고리즘). 
+// 대기 중인 작업의 수(w)는 처리 가능한 작업의 수(A) 보다 항상 많거나 같기 때문에 처리할 작업의 소요시간(S)의 곱만큼의 지연이 발생한다. (W-A)*S > A*S 
 class Solution {
     public int solution(int[][] jobs) {
         List<Job> jobList = new ArrayList<>();
