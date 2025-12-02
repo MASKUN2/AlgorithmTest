@@ -1,52 +1,34 @@
 import java.util.*;
+import java.util.stream.*;
 
 class Solution {
     public int solution(int n, int[][] computers) {
-        Map<Integer,Computer> map = new HashMap<>();
-        List<Computer> list = new ArrayList<>();
+        Map<Integer,Set<Integer>> map = new HashMap<>();
         
-        for(int i = 0; i < computers[0].length; i++){
-            var com = new Computer();
-            map.put(i, com);
-            list.add(com);
+        for(int i = 0; i < computers.length; i++){
+            map.put(i, new HashSet<>(Set.of(i)));
         }
-            
+        
         for(int i = 0; i < computers.length; i++){
             for(int j = 0; j < computers[i].length; j++){
-                if(computers[i][j] == 0){
+                if(computers[i][j] == 0 || j > i){
                     continue;
                 }
-                // connection
-                var iCom = map.get(i);
-                var jCom = map.get(j);
-                iCom.wind(jCom);
+                
+                var iSet = map.get(i);
+                var jSet = map.get(j);
+                
+                iSet.addAll(jSet);
+                
+                for(Integer target : jSet){
+                    map.put(target, iSet);
+                }
             }
         }
         
-        int count = 0;
+        var result = map.values().stream().collect(Collectors.toSet());
         
-        while(!list.isEmpty()){
-            var com = list.get(0);
-            list.removeAll(com.network);
-            count ++;
-        }
+        return result.size();
         
-        return count;
-        
-    }
-    
-    class Computer{
-        Set<Computer> network = new HashSet<>();
-        
-        Computer(){
-            this.network.add(this);
-        }
-        
-        void wind(Computer com){
-            network.addAll(com.network);
-            com.network = this.network;
-            
-            com.network.forEach(c -> c.network = this.network);
-        }
     }
 }
