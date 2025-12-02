@@ -6,7 +6,7 @@ class Solution {
         var t = new Try();
         t.curr = begin;
         t.target = target;
-        t.words.addAll(Arrays.asList(words));
+        Try.words.addAll(Arrays.asList(words));
         
         var queue = new LinkedList<Try>();
         queue.offer(t);
@@ -27,17 +27,17 @@ class Solution {
         
     }
     
-    class Try{
+    static class Try{
         String curr;
         String target;
-        Set<String> words = new HashSet<>();
+        static Set<String> words = new HashSet<>();
         int count = 0;
         
         Try copy(){
             var t = new Try();
             t.curr = this.curr;
             t.target = this.target;
-            t.words.addAll(this.words);
+            t.words = this.words;
             int count = this.count;
             return t;
         }
@@ -48,11 +48,11 @@ class Solution {
         
         List<Try> transform(){
             List<Try> list = new ArrayList<>();
-            for(String word : this.words){
+            for(String word : new HashSet<>(Try.words)){
                 if(isTransformable(word)){
                     var t = copy();
                     t.curr = word;
-                    t.words.remove(word);
+                    Try.words.remove(word);
                     t.count = this.count + 1;
                     list.add(t);
                 }
