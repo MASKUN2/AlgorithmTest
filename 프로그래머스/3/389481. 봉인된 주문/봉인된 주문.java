@@ -71,7 +71,7 @@ class Solution {
         String spell = "";
 
         while (n > 0){
-            n--;
+            n--; // 26으로 나눌때 n이 26이면 실제로는 인덱스 25 (z)가 나와야하므로, 27은 aa(0,25)여야함 
             spell = alphabet[(int) (n % l)] + spell;
             n /= l;
         }
